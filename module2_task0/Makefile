@@ -4,6 +4,7 @@ POST_TITLE ?= ''
 
 .PHONY: clean
 clean: ## Removes the `dist/` directory, created when building the website
+	-make stop
 	rm -rf dist/*
 	rm -rf awesome-api awesome-api.log
 
@@ -18,8 +19,8 @@ stop: ## Stops the awesome-api application
 	kill $(shell pgrep awesome-api)
 
 test: ## Tests the available endpoints in the API
-	-curl "http://localhost:9999"
-	-curl "http://localhost:9999/health"
+	curl "http://localhost:9999"
+	curl "http://localhost:9999/health"
 
 post: ## Makes a new post to the website. POST_TITLE and POST_NAME are passed as environment variables
 	hugo new posts/$(POST_NAME).md
