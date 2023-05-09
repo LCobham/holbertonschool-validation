@@ -40,8 +40,8 @@ integration-tests: ## Run Integration tests on the awesome-api
 	go test -v -coverprofile=coverage-integrations.out
 
 check: ## Check format of .md files in content folder
-	markdownlint ./**/*.md || exit
-	find . -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
+	markdownlint -q content || exit
+	find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
 
 validate: ## Validate index.html
 	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || echo -n ""
