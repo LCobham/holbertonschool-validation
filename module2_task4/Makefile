@@ -9,8 +9,7 @@ clean: ## Removes the `dist/` directory, created when building the website. Remo
 	-rm coverage-units.out coverage-integrations.out
 	-kill $(shell pgrep awesome-api)
 
-build: ## Builds the static website and the awesome-api API
-	make check
+build: check ## Builds the static website and the awesome-api API
 	hugo --quiet
 	make lint
 	go build
