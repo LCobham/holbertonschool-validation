@@ -3,15 +3,13 @@ POST_TITLE ?= ''
 
 
 .PHONY: clean
-clean: ## Removes the `dist/` directory, created when building the website. Removes the API executable and log file. 
+clean: stop ## Removes the `dist/` directory, created when building the website. Removes the API executable and log file. 
 	-rm -rf dist/*
 	-rm -rf awesome-api awesome-api.log
 	-rm coverage-units.out coverage-integrations.out
-	-kill $(shell pgrep awesome-api)
 
-build: check ## Builds the static website and the awesome-api API
+build: lint check ## Builds the static website and the awesome-api API
 	hugo --quiet
-	make lint
 	go build
 
 run: ## Runs the application and redirects/appends the console output to file `awesome-api.log`
