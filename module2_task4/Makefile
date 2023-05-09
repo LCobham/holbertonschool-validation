@@ -44,4 +44,4 @@ validate: ## Validate index.html
 	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
 
 help: ## Get help on available commands
-	grep ": ##" Makefile | sed 's/## //' | head -n -1
+	grep "##" Makefile | sed 's/:.*## /: /' | head -n -1
