@@ -4,9 +4,9 @@ POST_TITLE ?= ''
 
 .PHONY: clean
 clean: ## Removes the `dist/` directory, created when building the website. Removes the API executable and log file. 
-	rm -rf dist/*
-	rm -rf awesome-api awesome-api.log
-	rm coverage-units.out coverage-integrations.out
+	-rm -rf dist/*
+	-rm -rf awesome-api awesome-api.log
+	-rm coverage-units.out coverage-integrations.out
 	-kill $(shell pgrep awesome-api)
 
 build: ## Builds the static website and the awesome-api API
@@ -44,7 +44,7 @@ check: ## Check format of .md files in content folder
 	find . -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
 
 validate: ## Validate index.html
-	./opt/W3C-Validator/w3c_validator.py dist/index.html
+	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || echo -n ""
 
 help: ## Get help on available commands
 	grep ": ##" Makefile | sed 's/## //' | head -n -1
