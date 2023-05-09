@@ -38,7 +38,7 @@ integration-tests: ## Run Integration tests on the awesome-api
 
 check: ## Check format of .md files in content folder
 	markdownlint 'content/**/*.md' || exit
-	find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check
+	find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
 
 validate: ## Validate index.html
 	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
