@@ -8,7 +8,7 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	-rm -rf awesome-api awesome-api.log
 	-rm coverage-units.out coverage-integrations.out
 
-build: check ## Builds the static website and the awesome-api API
+build: check lint ## Builds the static website and the awesome-api API
 	hugo --quiet
 	go build -o awesome-api main.go
 
@@ -20,6 +20,9 @@ stop: ## Stops the awesome-api application
 	-kill $(shell pgrep awesome-api)
 
 test: validate ## Tests the available endpoints in the API
+	if [ ! -f awesome-api ]; then \
+		make build; \
+	fi
 	make unit-tests
 	make integration-tests
 
