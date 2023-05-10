@@ -13,6 +13,11 @@ func Test_server(t *testing.T) {
     t.Skip("Flag `-short` provided: skipping Integration Tests.")
   }
 
+  indexHTML, err := ioutil.ReadFile("dist/index.html") 
+  if err != nil {
+    t.Fatalf("Failed to read expected file: %s", err)
+  }
+
   tests := []struct {
     name         string
     URI          string
@@ -22,8 +27,8 @@ func Test_server(t *testing.T) {
     {
       name:         "Home page",
       URI:          "",
-      responseCode: 404,
-      body:         "404 page not found\n",
+      responseCode: 200,
+      body:         string(indexHTML),
     },
     {
       name:         "Hello page",

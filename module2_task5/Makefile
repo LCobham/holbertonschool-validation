@@ -12,11 +12,9 @@ build: lint check ## Builds the static website and the awesome-api API
 	hugo --quiet
 	go build
 
-run: ## Runs the application and redirects/appends the console output to file `awesome-api.log`
-	if [ ! -f awesome-api ]; then \
-		make build; \
-	fi
+run: build ## Runs the application and redirects/appends the console output to file `awesome-api.log`
 	./awesome-api >./awesome-api.log 2>&1 &
+	make test
 
 stop: ## Stops the awesome-api application
 	-kill $(shell pgrep awesome-api)
