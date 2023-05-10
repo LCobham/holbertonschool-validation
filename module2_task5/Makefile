@@ -4,13 +4,13 @@ POST_TITLE ?= ''
 
 .PHONY: clean
 clean: stop ## Removes the `dist/` directory, created when building the website. Removes the API executable and log file. 
-	-rm -rf dist/*
+	-rm -rf dist
 	-rm -rf awesome-api awesome-api.log
 	-rm coverage-units.out coverage-integrations.out
 
 build: check ## Builds the static website and the awesome-api API
 	hugo --quiet
-	go build
+	go build -o awesome-api main.go
 
 run: build ## Runs the application and redirects/appends the console output to file `awesome-api.log`
 	./awesome-api >./awesome-api.log 2>&1 &
@@ -43,7 +43,7 @@ check: ## Check format of .md files in content folder
 
 validate: ## Validate index.html
 	if [ -f ./dist/index.html ]; then \
-	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true; \
+		./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true; \
 	fi;
 
 help: ## Get help on available commands
