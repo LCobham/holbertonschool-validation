@@ -8,9 +8,9 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	-rm -rf awesome-api awesome-api.log
 	-rm coverage-units.out coverage-integrations.out
 
-build: check lint ## Builds the static website and the awesome-api API
+build: lint check ## Builds the static website and the awesome-api API
 	hugo --quiet
-	go build -o awesome-api main.go
+	go build -o awesome-api *.go
 
 run: build ## Runs the application and redirects/appends the console output to file `awesome-api.log`
 	./awesome-api >./awesome-api.log 2>&1 &
@@ -20,9 +20,6 @@ stop: ## Stops the awesome-api application
 	-kill $(shell pgrep awesome-api)
 
 test: validate ## Tests the available endpoints in the API
-	if [ ! -f awesome-api ]; then \
-		make build; \
-	fi
 	make unit-tests
 	make integration-tests
 
@@ -32,7 +29,7 @@ post: ## Makes a new post to the website. POST_TITLE and POST_NAME are passed as
 	sed -i '4s/.*/draft: false/' content/posts/$(POST_NAME).md
 
 lint: ## Run the golangci-lint and exit if errors are present in .go src files
-	golangci-lint run || exit
+	golangci-lint run *.go || exit
 
 unit-tests: ## Run UnitTests on the awesome-api
 	go test -v -short -coverprofile=coverage-units.out
