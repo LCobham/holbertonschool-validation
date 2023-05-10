@@ -8,7 +8,7 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	-rm -rf awesome-api awesome-api.log
 	-rm coverage-units.out coverage-integrations.out
 
-build: lint check ## Builds the static website and the awesome-api API
+build: check ## Builds the static website and the awesome-api API
 	hugo --quiet
 	go build
 
@@ -42,7 +42,9 @@ check: ## Check format of .md files in content folder
 	find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
 
 validate: ## Validate index.html
-	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true
+	if [ -f ./dist/index.html ]; then \
+	./opt/W3C-Validator/w3c_validator.py ./dist/index.html || true; \
+	fi;
 
 help: ## Get help on available commands
 	grep "##" Makefile | sed 's/:.*## /: /' | head -n -1
