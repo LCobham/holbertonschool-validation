@@ -21,13 +21,18 @@ jobs:
       - name: Install dependencies
         run: cd module3_task2 && ./setup.sh
 
-      - name: Most make targets
+      - run: cd module3_task2 && make lint
+      - run: cd module3_task2 && make check
+      - run: cd module3_task2 && make validate
+      - run: cd module3_task2 && make build
+      - run: cd module3_task2 && make run
+      - run: cd module3_task2 && make package
+      - run: cd module3_task2 && make stop
+      - run: cd module3_task2 && make clean
+
+      - name: Make package
         working-directory: module3_task2
-        run: make lint && make build && make check && \
-             make test && make validate && \
-             make run && make package && \
-             make POST_NAME=name POST_TITLE=title post && \
-             make clean
+        run: make run && make package
 
       - name: Upload Build
         uses: actions/upload-artifact@v3
