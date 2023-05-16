@@ -25,3 +25,5 @@ The `make check` command checks all markdown files in the content directory; `ma
 
 Help on all commands is available with `make help`.
 Unit tests can be run to check the behaviour of the API with `make unit-tests`. Integration tests can be run with `make integration-tests`. Both are run with `make tests`
+
+A Workflow is included for CI / CD. `github-workflow.yml` is a symlink to that workflow. 
