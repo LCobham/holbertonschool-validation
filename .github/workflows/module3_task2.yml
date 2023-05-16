@@ -22,7 +22,7 @@ jobs:
         run: cd module3_task2 && ./setup.sh && make build
 
       - name: Conditionally Build ZIP file
-	run: if [[ $? -eq 0 ]]; then make package; fi
+	run: cd module3_task2 && make run && make package
 
       - name: Upload Build
 	uses: actions/upload-artifact@v3
