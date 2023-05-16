@@ -4,7 +4,7 @@ on:
   push:
     branches:
       # Execute the workflow on every push to the main branch
-      - main
+      - master
   schedule:
     # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
