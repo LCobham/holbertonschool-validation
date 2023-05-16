@@ -1,0 +1,40 @@
+---
+name: module3_task2
+on:
+  push:
+    branches:
+      # Execute the workflow on every push to the main branch
+      - master
+  schedule:
+    # Execute the workflow every day at 6:15 am
+    - cron: '15 6 * * *'
+
+jobs:
+  create-package:
+    # The workflow will run on ubuntu-22.04
+    runs-on: ubuntu-22.04
+    steps:
+
+      - name: Clone the repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies & build
+        run: |
+	  cd module3_task2 && ./setup.sh 
+	  make build
+
+      - name: Conditionally Build ZIP file
+	run: |
+	  make run
+	  if [[ $? -eq 0 ]]; then
+	    make package
+	  else
+	    echo "Build failed. Skipping artifact creation."
+	  fi
+
+      - name: Upload Build
+	uses: actions/upload-artifact@v3
+	with:
+	  name: Package
+	  path: module3_task2/awesome-webpage.zip
+...
