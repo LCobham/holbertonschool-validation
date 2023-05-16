@@ -1,6 +1,5 @@
 ---
 name: module3_task0
-run-name: ${{ github.actor }} running automated CI / CD tests on repo
 on:
   push:
     branches:
@@ -9,6 +8,7 @@ on:
   schedule:
     # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
+
 jobs:
   get-help:
     # The workflow will run on ubuntu-22.04
@@ -16,5 +16,5 @@ jobs:
     steps:
       - name: Clone the repo
         uses: actions/checkout@v3
-      - run: cd module3_task0 ; make help
+      - run: cd module3_task0 && make help
 ...
