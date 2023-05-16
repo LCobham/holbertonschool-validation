@@ -12,10 +12,10 @@ static website, created with Go-Hugo.
 ## Lifecycle
 
 To build the website, simply type `hugo` or `make build`,
-which will build the website with the `--quiet` flag. 
+which will build the website with the `--quiet` flag.
 This will also build the `awesome-api` binary. The binary,
 when executed, will run on localhost, port 9999 (unless a
-port is specified in the environment variable `PORT`). 
+port is specified in the environment variable `PORT`).
 To run the API use `make run`; commands will be logged on
 `awesome-api.log`. The API is stopped with `make stop`.
 To actually visualize the created website, run the command
@@ -39,11 +39,10 @@ The `make check` command checks all markdown files in the content directory;
 Help on all commands is available with `make help`.
 Unit tests can be run to check the behaviour of the API with `make unit-tests`.
 Integration tests can be run with `make integration-tests`.
-Both are run with `make tests`
+Both are run with `make tests`.
 
 A compressed version of the webpage and the API can be generated with
 `make package`, this is implemented in a GitHub Workflow.
 
 A Workflow is included for CI / CD. `github-workflow.yml` is a symlink
 to that workflow. The workflow checks the build is working propertly.
-

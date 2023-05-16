@@ -15,4 +15,3 @@ the webpage is running as expected, we can run the application with
 ```curl http://localhost:9999/healthcheck ; echo ""```
 
 If the API is functioning well, `ALIVE` should be printed to the console.
-
