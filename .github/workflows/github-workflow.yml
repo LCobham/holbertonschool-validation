@@ -6,7 +6,7 @@ on:
     branches:
       # Execute the workflow on every push to the main branch
       - main
-  scheddule:
+  schedule:
     # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
 jobs:
