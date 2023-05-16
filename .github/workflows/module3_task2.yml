@@ -1,6 +1,6 @@
 ---
 
-name: module3_task2 
+name: module3_task2
 on:
   push:
     branches:
@@ -22,9 +22,8 @@ jobs:
         run: cd module3_task2 && ./setup.sh && make run && make package
 
       - name: Upload Build
-	uses: actions/upload-artifact@v3
-	with:
-	  name: API and Webpage Package
-	  path: module3_task2/awesome-webpage.zip
+        uses: actions/upload-artifact@v3
+        with:
+          name: API and Webpage Package
+          path: module3_task2/awesome-webpage.zip
 ...
-
