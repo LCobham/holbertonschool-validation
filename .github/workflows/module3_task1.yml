@@ -10,14 +10,12 @@ on:
     - cron: '15 6 * * *'
 
 jobs:
-  get-help:
+  build:
     # The workflow will run on ubuntu-22.04
     runs-on: ubuntu-22.04
     steps:
       - name: Clone the repo
         uses: actions/checkout@v3
       - name: Install dependencies
-        run: cd module3_task1 && ./setup.sh
-      - name: Build Webpage and API
-        run: make build
+        run: cd module3_task1 && ./setup.sh && make build
 ...
