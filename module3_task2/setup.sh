@@ -14,5 +14,7 @@ sudo mv hugo /usr/local/bin/
 rm hugo_extended_0.109.0_Linux-64bit.tar.gz
 
 ## Install linter
+curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b /usr/bin 
 sudo npm install -g markdown-link-check
 sudo npm install -g markdownlint-cli
+
