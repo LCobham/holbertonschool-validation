@@ -18,8 +18,12 @@ jobs:
       - name: Clone the repo
         uses: actions/checkout@v3
 
-      - name: Install dependencies, build & create zip
-        run: cd module3_task2 && ./setup.sh && make run && make package
+      - name: Install dependencies
+        run: cd module3_task2 && ./setup.sh
+
+      - name:
+        working-directory: module3_task2
+        run: make lint && make run && make package
 
       - name: Upload Build
         uses: actions/upload-artifact@v3
