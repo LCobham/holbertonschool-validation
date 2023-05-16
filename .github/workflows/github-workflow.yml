@@ -16,5 +16,5 @@ jobs:
     steps:
       - name: Clone the repo
         uses: actions/checkout@v3
-      - run: cd module3_task0; make help
+      - run: cd module3_task0 ; make help
 ...
