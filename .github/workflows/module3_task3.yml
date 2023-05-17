@@ -1,0 +1,50 @@
+---
+
+name: module3_task3
+on:
+  push:
+    branches:
+      # Execute the workflow on every push to the main branch
+      - master
+  schedule:
+    # Execute the workflow every day at 6:15 am
+    - cron: '15 6 * * *'
+
+jobs:
+  create-package:
+    # The workflow will run on ubuntu-22.04
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies & test make
+        run: |
+          cd module3_task3 && ./setup.sh
+          make lint
+          make check
+          make validate
+          make build
+          make run
+          make package
+          make stop
+          make clean
+
+      - name: Make package
+        working-directory: module3_task3
+        run: make run && make package
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: API and Webpage Package
+          path: module3_task3/awesome-webpage.zip
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: ${{ github.ref == 'refs/tags/1.0.0' }}
+        with:
+          files: |
+            module3_task3/awesome-webpage.zip
+            module3_tas3/DEPLOY.md
+...
