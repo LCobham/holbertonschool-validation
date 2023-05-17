@@ -13,7 +13,7 @@ on:
     - cron: '15 6 * * *'
 
 jobs:
-  create-package:
+  upload-release:
     # The workflow will run on ubuntu-22.04
     runs-on: ubuntu-22.04
     steps:
@@ -40,14 +40,15 @@ jobs:
       - name: Upload Build
         uses: actions/upload-artifact@v3
         with:
-          name: API and Webpage Package
+          name: awesome-webpage.zip
           path: module3_task3/awesome-webpage.zip
 
-      - name: 1.0.0
+      - name: Release
         uses: softprops/action-gh-release@v1
-        if: ${{ github.ref =='refs/tags/1.0.0' }}
         with:
           files: |
             module3_task3/DEPLOY.md
             module3_task3/awesome-webpage.zip
+          tag-name: 1.0.0
+          body_path: ./module3_task4/DEPLOY.md
 ...
