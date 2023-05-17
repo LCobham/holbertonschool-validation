@@ -1,6 +1,5 @@
 ---
 name: module3_task3
-run-name: Create Release - M3T3
 on:
   push:
     branches:
