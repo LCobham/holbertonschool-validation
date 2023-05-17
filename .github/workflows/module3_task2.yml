@@ -1,6 +1,6 @@
 ---
 name: module3_task2
-run-name: Create Package - M3T2
+run-name: module3_task2
 on:
   push:
     branches:

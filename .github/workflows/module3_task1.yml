@@ -1,6 +1,6 @@
 ---
 name: module3_task1
-run-name: Build - M3T1
+run-name: module3_task1
 on:
   push:
     branches:

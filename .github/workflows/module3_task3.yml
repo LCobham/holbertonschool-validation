@@ -1,9 +1,12 @@
 ---
 name: module3_task3
+run-name: module3_task3
 on:
   push:
     branches:
       - master
+    tags:
+      - "*"
   schedule:
     - cron: '15 6 * * *'
 
@@ -12,7 +15,6 @@ permissions:
 
 defaults:
   run:
-    shell: bash
     working-directory: ./module3_task3
 
 jobs:
@@ -42,7 +44,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.event.release.tag_name, '1.0.0')
+        if: startsWith(github.event.release.tag_name, '1.0.')
         with:
           files: |
             ./module3_task3/awesome-website.zip
