@@ -40,7 +40,7 @@ jobs:
           name: API and Webpage Package
           path: module3_task3/awesome-webpage.zip
 
-      - name: Release
+      - name: 1.0.0
         uses: softprops/action-gh-release@v1
         if: ${{ github.ref == 'refs/tags/1.0.0' }}
         with:
