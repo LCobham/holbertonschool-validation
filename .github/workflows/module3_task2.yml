@@ -20,6 +20,7 @@ jobs:
         run: ./setup.sh
 
       - name: lint
+        working-directory: module3_task2
         run: make lint
 
   build:
@@ -34,6 +35,7 @@ jobs:
         run: ./setup.sh
 
       - name: Build webpage and API
+        working-directory: module3_task2
         run: make build
 
       - name: Upload Build artifacts
@@ -41,8 +43,8 @@ jobs:
         with:
           name: build-artifacts
           path: |
-            /dist
-            awesome-api
+            module3_task2/dist/
+            module3_task2/awesome-api
   
   testing-style:
     needs: build
@@ -59,9 +61,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifacts
-          path: /dist
+          path: module3_task2/dist/
 
       - name: Test style
+        working-directory: module3_task2
         run: |
           make check
           make validate
@@ -81,15 +84,16 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-artifacts
-          path: awesome-api
+          path: module3_task2/awesome-api
 
       - name: Download web
         uses: actions/download-artifact@v2
         with:
           name: build-artifacts
-          path: /dist
+          path: module3_task2/dist/
 
       - name: Test api
+        working-directory: module3_task2
         run: |
           make run
           make test
