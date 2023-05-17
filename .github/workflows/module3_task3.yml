@@ -43,12 +43,15 @@ jobs:
           name: awesome-webpage.zip
           path: module3_task3/awesome-webpage.zip
 
+      - name: GitHub Actions Debugging
+        run: ls -la && echo "" && ls -la module3_task3/
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             module3_task3/DEPLOY.md
-            module3_task3/awesome-webpage.zip
+            awesome-webpage.zip
           tag_name: 1.0.0
           body_path: ./module3_task4/DEPLOY.md
 ...
