@@ -1,44 +1,53 @@
 ---
+
 name: module3_task3
-run-name: module3_task3
-on: # yamllint disable-line rule:truthy
+on:
   push:
     branches:
+      # Execute the workflow on every push to the main branch
       - master
     tags:
       - "*"
   schedule:
-    - cron: "15 6 * * *"
+    # Execute the workflow every day at 6:15 am
+    - cron: '15 6 * * *'
+
 jobs:
-  create-release:
+  create-package:
+    # The workflow will run on ubuntu-22.04
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout repository
+      - name: Clone the repo
         uses: actions/checkout@v3
 
-      - name: Setup
+      - name: Install dependencies
+        working-directory: module3_task3
         run: ./setup.sh
-        working-directory: module3_task3
 
-      - name: Build
-        run: sudo make build
+      - name: Test make actions
         working-directory: module3_task3
+        run: |
+          make lint
+          make check
+          make test
+          make validate
+          make build
 
-      - name: Test validation
-        id: test
-        run: sudo make test
+      - name: Make package
         working-directory: module3_task3
+        run: make run && make package
 
-      - name: Package
-        if: steps.test.outputs.exit_code == 0
-        run: sudo make run && sudo make package
-        working-directory: module3_task3
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: API and Webpage Package
+          path: module3_task3/awesome-webpage.zip
 
       - name: 1.0.0
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/1.0.0')
+        if: ${{ github.ref =='refs/tags/1.0.0' }}
         with:
           files: |
-            DEPLOY.md
-            awesome-website.zip
+            module3_task3/DEPLOY.md
+            module3_task3/awesome-webpage.zip
 ...
