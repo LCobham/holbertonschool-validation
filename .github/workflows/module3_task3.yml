@@ -6,9 +6,9 @@ on:
       - master
   schedule:
     - cron: '15 6 * * *'
-  release:
-    types:
-      - created
+
+permissions:
+  contents: write
 
 defaults:
   run:
@@ -40,7 +40,7 @@ jobs:
       - name: Build ZIP file
         run: make package
 
-      - name: 1.0.0
+      - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.event.release.tag_name, '1.0.0')
         with:
@@ -49,4 +49,5 @@ jobs:
             ./module3_task3/DEPLOY.md
           body_path: ./module3_task3/DEPLOY.md
           tag_name: ${{ github.event.release.tag_name }}
+          name: 1.0.0
 ...
