@@ -1,46 +1,38 @@
 ---
-
 name: module3_task3
-on:
+run-name: module3_task3
+on: # yamllint disable-line rule:truthy
   push:
     branches:
-      # Execute the workflow on every push to the main branch
       - master
     tags:
       - "*"
   schedule:
-    # Execute the workflow every day at 6:15 am
-    - cron: '15 6 * * *'
-
+    - cron: "15 6 * * *"
 jobs:
-  create-package:
-    # The workflow will run on ubuntu-22.04
+  create-release:
     runs-on: ubuntu-22.04
     steps:
-      - name: Clone the repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install dependencies
-        working-directory: module3_task3
+      - name: Setup
         run: ./setup.sh
-
-      - name: Test make actions
         working-directory: module3_task3
-        run: |
-          make lint
-          make check
-          make validate
-          make build
 
-      - name: Make package
+      - name: Build
+        run: sudo make build
         working-directory: module3_task3
-        run: make run && make package
 
-      - name: Upload Build
-        uses: actions/upload-artifact@v3
-        with:
-          name: API and Webpage Package
-          path: module3_task3/awesome-webpage.zip
+      - name: Test validation
+        id: test
+        run: sudo make test
+        working-directory: module3_task3
+
+      - name: Package
+        if: steps.test.outputs.exit_code == 0
+        run: sudo make run && sudo make package
+        working-directory: module3_task3
 
       - name: 1.0.0
         uses: softprops/action-gh-release@v1
@@ -48,5 +40,5 @@ jobs:
         with:
           files: |
             DEPLOY.md
-            awesome-webpage.zip
+            awesome-website.zip
 ...
