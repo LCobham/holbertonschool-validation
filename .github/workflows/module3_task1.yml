@@ -1,21 +1,25 @@
 ---
 name: module3_task1
+run-name: Build - M3T1
 on:
   push:
     branches:
-      # Execute the workflow on every push to the main branch
       - master
   schedule:
-    # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
 
 jobs:
   build:
-    # The workflow will run on ubuntu-22.04
     runs-on: ubuntu-22.04
     steps:
       - name: Clone the repo
         uses: actions/checkout@v3
+
       - name: Install dependencies
-        run: cd module3_task1 && ./setup.sh && make build
+        working-directory: module3_task1
+        run: ./setup.sh
+
+      - name: Build
+        working-directory: module3_task1
+        run: make build
 ...

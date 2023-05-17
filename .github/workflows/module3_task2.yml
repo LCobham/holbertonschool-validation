@@ -1,42 +1,96 @@
 ---
-
 name: module3_task2
+run-name: Create Package - M3T2
 on:
   push:
     branches:
-      # Execute the workflow on every push to the main branch
       - master
   schedule:
-    # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
 
 jobs:
-  create-package:
-    # The workflow will run on ubuntu-22.04
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: module3_task2
+        run: ./setup.sh
+
+      - name: lint
+        run: make lint
+
+  build:
+    needs: lint
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: module3_task2
+        run: ./setup.sh
+
+      - name: Build webpage and API
+        run: make build
+
+      - name: Upload Build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: |
+            /dist
+            awesome-api
+  
+  testing-style:
+    needs: build
     runs-on: ubuntu-22.04
     steps:
       - name: Clone the repo
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: cd module3_task2 && ./setup.sh
-
-      - run: cd module3_task2 && make lint
-      - run: cd module3_task2 && make check
-      - run: cd module3_task2 && make validate
-      - run: cd module3_task2 && make build
-      - run: cd module3_task2 && make run
-      - run: cd module3_task2 && make package
-      - run: cd module3_task2 && make stop
-      - run: cd module3_task2 && make clean
-
-      - name: Make package
         working-directory: module3_task2
-        run: make run && make package
+        run: ./setup.sh
 
-      - name: Upload Build
-        uses: actions/upload-artifact@v3
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
         with:
-          name: API and Webpage Package
-          path: module3_task2/awesome-webpage.zip
+          name: build-artifacts
+          path: /dist
+
+      - name: Test style
+        run: |
+          make check
+          make validate
+
+  test-webpage-api:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        working-directory: module3_task2
+        run: ./setup.sh
+
+      - name: Download api
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path: awesome-api
+
+      - name: Download web
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path: /dist
+
+      - name: Test api
+        run: |
+          make run
+          make test
 ...
