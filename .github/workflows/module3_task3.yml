@@ -45,6 +45,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/1.0.0')
         with:
           files: |
-            module3_tas3/DEPLOY.md
-            module3_task3/awesome-webpage.zip
+            DEPLOY.md
+            awesome-webpage.zip
 ...
