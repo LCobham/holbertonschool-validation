@@ -1,57 +1,56 @@
 ---
-
 name: module3_task3
+run-name: Create Release - M3T3
 on:
   push:
     branches:
-      # Execute the workflow on every push to the main branch
       - master
-    tags:
-      - "*"
   schedule:
-    # Execute the workflow every day at 6:15 am
     - cron: '15 6 * * *'
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./module3_task3
+
 jobs:
-  upload-release:
-    # The workflow will run on ubuntu-22.04
+  create-release:
     runs-on: ubuntu-22.04
     steps:
-      - name: Clone the repo
+      - name: Clone repo
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        working-directory: module3_task3
         run: ./setup.sh
 
-      - name: Test make actions
-        working-directory: module3_task3
-        run: |
-          make lint
-          make check
-          make test
-          make validate
-          make build
+      - name: lint go source files
+        run: make lint
 
-      - name: Make package
-        working-directory: module3_task3
-        run: make run && make package
+      - name: Build webpage and API
+        run: make build
 
-      - name: Upload Build
+      - name: Validate and lint markdown files
+        run: make check && make validate
+
+      - name: Run Unit & Integrations Tests
+        run: make test
+
+      - name: Build ZIP file
+        run: make package
+
+      - name: Upload build
         uses: actions/upload-artifact@v3
         with:
-          name: awesome-webpage.zip
-          path: module3_task3/awesome-webpage.zip
-
-      - name: GitHub Actions Debugging
-        run: ls -la && echo "" && ls -la module3_task3/
-
+          name: build-artifacts
+          path: module3_task3/awesome-website.zip
+  
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            module3_task3/DEPLOY.md
-            module3_task3/awesome-website.zip
-          tag_name: 1.0.0
+            ./module3_task3/awesome-website.zip
+            ./module3_task3/DEPLOY.md
           body_path: ./module3_task3/DEPLOY.md
+          tag_name: 1.0.0
 ...

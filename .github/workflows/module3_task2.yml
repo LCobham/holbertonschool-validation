@@ -8,93 +8,39 @@ on:
   schedule:
     - cron: '15 6 * * *'
 
+defaults:
+  run:
+    shell: bash
+    working-directory: ./module3_task2
+
 jobs:
-  lint:
+  create-package:
     runs-on: ubuntu-22.04
     steps:
       - name: Clone repo
         uses: actions/checkout@v3
 
       - name: Install dependencies
-        working-directory: module3_task2
         run: ./setup.sh
 
-      - name: lint
-        working-directory: module3_task2
+      - name: lint go source files
         run: make lint
 
-  build:
-    needs: lint
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Clone repo
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        working-directory: module3_task2
-        run: ./setup.sh
-
       - name: Build webpage and API
-        working-directory: module3_task2
         run: make build
 
-      - name: Upload Build artifacts
+      - name: Validate and lint markdown files
+        run: make check && make validate
+
+      - name: Run Unit & Integrations Tests
+        run: make test
+
+      - name: Build ZIP file
+        run: make package
+
+      - name: Upload build
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: |
-            module3_task2/dist/
-            module3_task2/awesome-api
-  
-  testing-style:
-    needs: build
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Clone the repo
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        working-directory: module3_task2
-        run: ./setup.sh
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifacts
-          path: module3_task2/dist/
-
-      - name: Test style
-        working-directory: module3_task2
-        run: |
-          make check
-          make validate
-
-  test-webpage-api:
-    needs: build
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Clone the repo
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        working-directory: module3_task2
-        run: ./setup.sh
-
-      - name: Download api
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifacts
-          path: module3_task2/awesome-api
-
-      - name: Download web
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifacts
-          path: module3_task2/dist/
-
-      - name: Test api
-        working-directory: module3_task2
-        run: |
-          make run
-          make test
+          path: ./module3_task2/awesome-website.zip
 ...

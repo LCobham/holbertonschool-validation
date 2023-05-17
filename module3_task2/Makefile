@@ -29,6 +29,7 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	@rm -rf dist || true
 	@rm -rf awesome-api awesome-api.log || true
 	@rm coverage-units.out coverage-integrations.out || true
+	@rm awesome-website.zip || true
 
 unit-tests: ## Run UnitTests on the awesome-api
 	@go test -v -short -coverprofile=coverage-units.out
@@ -38,6 +39,9 @@ integration-tests: ## Run Integration tests on the awesome-api
 
 test: validate unit-tests integration-tests ## Tests the available endpoints in the API
 	@echo "Finnished running all unit & integration tests"
+
+package: ## Compress the dist directory and the awesome API in a ZIP file
+	@zip -r awesome-website dist/ awesome-api
 
 post: ## Makes a new post to the website. POST_TITLE and POST_NAME are passed as environment variables
 	@hugo new posts/$(POST_NAME).md
