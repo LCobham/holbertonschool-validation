@@ -19,7 +19,7 @@ build-hugo: check ## Builds the static website using Hugo
 
 build-api: ## Build the API from Go src files
 	@docker run --rm -it --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
-		go build -o awesome-api *.go
+		go build -o awesome-api ./*.go
 
 build: build-hugo build-api ## Builds the static website and the awesome-api API
 	@echo "Build completed successfully"
