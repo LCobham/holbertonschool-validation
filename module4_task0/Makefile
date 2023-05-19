@@ -18,7 +18,7 @@ build-hugo: check ## Builds the static website using Hugo
 	@hugo --quiet
 
 build-api: ## Build the API from Go src files
-	@docker run --rm --volume=$(pwd):/app --workdir=/app golang:1.15.8-buster \
+	@docker run --rm -it --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
 		go build -o awesome-api *.go
 
 build: build-hugo build-api ## Builds the static website and the awesome-api API
@@ -38,11 +38,11 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	@rm awesome-website.zip || true
 
 unit-tests: ## Run UnitTests on the awesome-api
-	@docker run --rm --volume=$(pwd):/app --workdir=/app golang:1.15.8-buster \
+	@docker run --rm --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
 		go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Run Integration tests on the awesome-api
-	@docker run --rm --volume=$(pwd):/app --workdir=/app golang:1.15.8-buster \
+	@docker run --rm --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
 		go test -v -coverprofile=coverage-integrations.out
 
 test: validate unit-tests integration-tests ## Tests the available endpoints in the API
