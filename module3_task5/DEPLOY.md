@@ -16,4 +16,4 @@ the webpage is running as expected, we can run the application with
 ```curl http://localhost:9999/healthcheck ; echo ""```
 
 If the API is functioning well, `ALIVE` should be printed to the console.
-Documentation is done with release-drafter.
+Documentation is done with release-drafter. Deploy with neftify.
