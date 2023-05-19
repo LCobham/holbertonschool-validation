@@ -39,7 +39,10 @@ jobs:
         run: make check && make validate
 
       - name: Run Unit & Integrations Tests
-        run: make test
+        run: |
+          make unit-tests
+          make integration-tests
+          make test
 
       - name: Build ZIP file
         run: make package
