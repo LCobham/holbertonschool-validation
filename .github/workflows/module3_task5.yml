@@ -1,0 +1,76 @@
+---
+name: module3_task5
+run-name: module3_task5
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 1.0.*
+  schedule:
+    - cron: '15 6 * * *'
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: ./module3_task5
+
+jobs:
+  create-release:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: ./setup.sh
+
+      - name: lint go source files
+        run: make lint
+
+      - name: Build webpage and API
+        run: make build
+
+      - name: Validate and lint markdown files
+        run: make check && make validate
+
+      - name: Run Unit & Integrations Tests
+        run: make test
+
+      - name: Build ZIP file
+        run: make package
+
+      - name: Debugging github variables
+        run: |
+          echo "Ref: ${{ github.ref }}"
+          echo "Actor is ${{ github.actor }}"
+          echo "Event: ${{ github.event }}"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/1.0.1')
+        with:
+          files: |
+            ./module3_task5/awesome-website.zip
+            ./module3_task5/DEPLOY.md
+          body_path: ./module3_task5/DEPLOY.md
+          tag_name: 1.0.1
+
+      - name: Deploy
+        uses: nwtgck/actions-netlify@v2.0
+        with:
+          publish-dir: './dist'
+          production-branch: master
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
