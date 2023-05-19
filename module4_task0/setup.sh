@@ -17,7 +17,8 @@ rm hugo_extended_0.109.0_Linux-64bit.tar.gz
 curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sudo sh -s -- -b /usr/bin
 
 # Install nvm & node to then install linter
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+cat ~/.bashrc
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | sudo sh -s -- -b /usr/bin
 sudo nvm install 18.16.0
 sudo nvm use 18
 sudo npm install -g markdown-link-check
