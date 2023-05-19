@@ -48,5 +48,5 @@ tag `1.0.0` is pushed to the master branch, this will generate a release.
 A Workflow is included for CI / CD. `github-workflow.yml` is a symlink
 to that workflow. The workflow checks the build is working propertly.
 
-Documentation of release is done with release-drafter.
+Documentation of release is done with release-drafter. Deployed with neftify.
 
