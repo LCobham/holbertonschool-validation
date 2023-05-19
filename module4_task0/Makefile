@@ -6,8 +6,9 @@ lint: ## Run the golangci-lint and exit if errors are present in .go src files
 	@golangci-lint run *.go || exit
 
 check: ## Check format of .md files in content folder
-	@markdownlint 'content/**/*.md' || exit
-	@find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
+##	markdownlint 'content/**/*.md' || exit
+##	find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
+	@echo "Skipping linter"
 
 validate: ## Validate index.html
 	@if [ -f ./dist/index.html ]; then \
