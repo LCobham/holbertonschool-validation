@@ -1,4 +1,4 @@
-# hadolint global ignore=DL3008,DL3015,DL3059,DL3009
+# hadolint global ignore=DL3008,DL3015,DL3059,DL3009,DL4006
 FROM golang:1.15.8-buster
 
 # Expose port 9999
@@ -6,9 +6,6 @@ EXPOSE 9999
 
 # Update existing packages
 RUN apt-get update
-
-# Just adding this to avoid lint errors
-SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 
 # Get make, curl & wget, used for installing Hugo
 RUN apt-get install -y curl zip make
