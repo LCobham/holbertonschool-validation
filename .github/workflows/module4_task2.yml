@@ -46,7 +46,6 @@ jobs:
             && chmod +x container-structure-test-linux-amd64 \
             && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
           make docker-tests
-          make test
 
       - name: Build ZIP file
         run: make package

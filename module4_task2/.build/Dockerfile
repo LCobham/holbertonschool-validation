@@ -1,32 +1,37 @@
-# hadolint global ignore=DL3008,DL3015,DL3059,DL3009,DL4006,DL4001
+# Base image
 FROM golang:1.15.8-buster
 
 # Expose port 9999
 EXPOSE 9999
 
 # Update existing packages
-RUN apt-get update
+RUN apt-get update && \
+    rm -rf /var/lib/apt/lists/*
 
 # Get make, curl & wget, used for installing Hugo
-RUN apt-get install -y curl zip make
-
-# Install Hugo in /usr/local/bin
-RUN wget --progress=dot:giga https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz
-RUN tar -xvf hugo_extended_0.109.0_Linux-64bit.tar.gz hugo
-RUN mv hugo /usr/local/bin && rm -f hugo_extended_0.109.0_Linux-64bit.tar.gz
+# hadolint ignore=DL3008
+RUN apt-get install -y --no-install-recommends curl zip make
 
 # Install pip for installing Requests (make validate)
-RUN apt-get install -y python3 python3-pip
-RUN python3 -m pip install --no-cache-dir requests==2.10.0
+# hadolint ignore=DL3008
+RUN apt-get install -y --no-install-recommends python3 python3-pip \
+    && python3 -m pip install --no-cache-dir requests==2.10.0
 
 # Install Go linter
+# hadolint ignore=DL4006
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/bin
 
 # Install node to use npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt-get install -y nodejs
+# hadolint ignore=DL3008,DL4006
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y --no-install-recommends nodejs
 
 # Install markdown linter
-RUN npm install -g markdown-link-check@v3.8
-RUN npm install -g markdownlint-cli@v0.34.0
+RUN npm install -g markdown-link-check@v3.8 markdownlint-cli@v0.34.0
 
+# Install Hugo in /usr/local/bin
+# hadolint ignore=DL4001
+RUN wget --progress=dot:giga https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz \
+    && tar -xvf hugo_extended_0.109.0_Linux-64bit.tar.gz hugo \
+    && mv hugo /usr/local/bin \
+    && rm -f hugo_extended_0.109.0_Linux-64bit.tar.gz
