@@ -1,0 +1,12 @@
+---
+schemaVersion: 2.0.0
+
+commandTests:
+  - name: "go version test"
+    command: "go"
+    args: ["version"]
+    exitCode: 0
+  - name: "hugo exists"
+    command: "hugo"
+    args: ["version"]
+    exitCode: 0
