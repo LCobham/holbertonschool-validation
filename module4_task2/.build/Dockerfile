@@ -4,17 +4,15 @@ FROM golang:1.15.8-buster
 # Expose port 9999
 EXPOSE 9999
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Update existing packages
-RUN apt-get update && \
-    rm -rf /var/lib/apt/lists/*
+# hadolint ignore=DL3009
+RUN apt-get update
 
 # Get make, curl & wget, used for installing Hugo
 # hadolint ignore=DL3008
-RUN apt-get install -y --no-install-recommends curl zip make
-
-# Install pip for installing Requests (make validate)
-# hadolint ignore=DL3008
-RUN apt-get install -y --no-install-recommends python3 python3-pip \
+RUN apt-get install  --no-install-recommends -y curl zip make python3 python3-pip \
     && python3 -m pip install --no-cache-dir requests==2.10.0
 
 # Install Go linter
