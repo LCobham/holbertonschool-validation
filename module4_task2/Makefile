@@ -14,10 +14,7 @@ check: ## Check format of .md files in content folder
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		markdownlint 'content/**/*.md' || exit
 
-##	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
-##		find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
-
-docker-tests:
+docker-tests: ## Run tests on dockerfile
 	@container-structure-test test -i awesome:build -c .build/cst.yml
 
 validate: ## Validate index.html
@@ -71,4 +68,4 @@ post: ## Makes a new post to the website. POST_TITLE and POST_NAME are passed as
 	@sed -i '4s/.*/draft: false/' content/posts/$(POST_NAME).md
 
 help: ## Get help on available commands
-	@grep "##" Makefile | sed 's/:.*## /: /' | head -n -1
+	@fgrep -h "##" Makefile | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
