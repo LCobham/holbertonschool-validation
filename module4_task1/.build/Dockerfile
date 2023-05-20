@@ -1,5 +1,5 @@
 # Build from golang and node image, both buster so they're compatible
-FROM golang:1.15.8-buster
+FROM golang:latest
 
 # Expose port 9999
 EXPOSE 9999

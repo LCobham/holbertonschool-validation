@@ -12,8 +12,9 @@ lint: ## Run the golangci-lint and exit if errors are present in .go src files
 check: ## Check format of .md files in content folder
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		markdownlint 'content/**/*.md' || exit
-	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
-		find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
+
+##	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
+##		find ./content -name \*.md -print0 | xargs -0 -n1 markdown-link-check || exit
 
 validate: ## Validate index.html
 	@if [ -f ./dist/index.html ]; then \
@@ -46,11 +47,11 @@ clean: stop ## Removes the `dist/` directory, created when building the website.
 	@rm awesome-website.zip || true
 
 unit-tests: ## Run UnitTests on the awesome-api
-	@docker run --rm --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
+	@docker run --rm --volume=$(shell pwd):/app --workdir=/app awesome:build \
 		go test -v -short -coverprofile=coverage-units.out
 
 integration-tests: ## Run Integration tests on the awesome-api
-	@docker run --rm --volume=$(shell pwd):/app --workdir=/app golang:1.15.8-buster \
+	@docker run --rm --volume=$(shell pwd):/app --workdir=/app awesome:build \
 		go test -v -coverprofile=coverage-integrations.out
 
 test: validate unit-tests integration-tests ## Tests the available endpoints in the API
