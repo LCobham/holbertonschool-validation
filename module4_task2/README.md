@@ -52,7 +52,8 @@ Documentation of release is done with release-drafter. Deployed with neftify.
 
 The Dockerfile in `.build` specifies the required dependencies for the build. Tests
 for this Dockerfile are in the same directory. The target `make docker-tests` run
-these tests. `make lint` also lints the Dockerfile.
+these tests. `make lint` also lints the Dockerfile. `make build-docker` builds the
+image with all required dependencies.
 The makefile has been adapted to run the build and tests inside a disposable container.
 
 
