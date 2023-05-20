@@ -26,6 +26,9 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v3
 
+      - name: run the setup
+        run: ./setup.sh
+
       - name: Build from dockerfile
         run: make build-docker
 
