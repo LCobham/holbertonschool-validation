@@ -2,7 +2,7 @@ POST_NAME ?= ''
 POST_TITLE ?= ''
 
 
-build-docker: ## Build the docker image with all dependencies from the Dockerfile in .build
+build-docker: lint ## Build the docker image with all dependencies from the Dockerfile in .build
 	@docker build -t awesome:build -f .build/Dockerfile .
 
 lint: ## Run the golangci-lint and exit if errors are present in .go src files
