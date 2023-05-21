@@ -5,7 +5,7 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Get make, curl & wget, used for installing Hugo
 # hadolint ignore=DL3018
-RUN apk add --no-cache curl zip make python3 py3-pip hugo \
+RUN apk add --no-cache curl zip gcc make python3 py3-pip hugo \
     && python3 -m pip install --no-cache-dir requests==2.10.0
 
 # Install hadolint
