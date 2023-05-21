@@ -10,15 +10,12 @@ fileExistenceTests:
     shouldExist: true
 
 commandTests:
-  - name: "go version test"
-    command: "go"
-    args: ["version"]
-    exitCode: 0
-  - name: "hugo exists"
-    command: "hugo"
-    args: ["version"]
-    exitCode: 0
-  - name: "hadolint correctly installed"
-    command: "hadolint"
-    args: ["--version"]
-    exitCode: 0
+  - name: 'hugo version'
+    command: 'hugo'
+    args: ['version']
+    expectedOutput: ['Hugo Static Site Generator v']
+
+  - name: 'hadolint version'
+    command: 'hadolint'
+    args: ['--version']
+    expectedOutput: ['Haskell Dockerfile Linter 2.6.0']
