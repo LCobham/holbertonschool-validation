@@ -55,7 +55,7 @@ integration-tests: ## Run Integration tests on the awesome-api
 	@docker run --rm --volume=$(shell pwd):/app --workdir=/app awesome:build \
 		go test -v -coverprofile=coverage-integrations.out
 
-test: validate unit-tests integration-tests ## Tests the available endpoints in the API
+test: validate unit-tests integration-tests build-docker docker-tests ## Tests the available endpoints in the API
 	@echo "Finnished running all unit & integration tests"
 
 package: ## Compress the dist directory and the awesome API in a ZIP file

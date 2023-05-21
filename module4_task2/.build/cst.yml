@@ -13,9 +13,16 @@ commandTests:
   - name: 'hugo version'
     command: 'hugo'
     args: ['version']
+    exitCode: 0
     expectedOutput: ['Hugo Static Site Generator v']
 
   - name: 'hadolint version'
     command: 'hadolint'
     args: ['--version']
+    exitCode: 0
     expectedOutput: ['Haskell Dockerfile Linter 2.6.0']
+
+  - name: 'go version'
+    command: 'go'
+    args: ['version']
+    exitCode: 0
