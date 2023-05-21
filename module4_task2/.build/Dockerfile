@@ -1,20 +1,12 @@
 # Base image
-FROM golang:1.15.8-buster
+FROM golang:1.15.8-alpine
 
-# Expose port 9999
-EXPOSE 9999
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-# Update existing packages
-# hadolint ignore=DL3009
-RUN apt-get update
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Get make, curl & wget, used for installing Hugo
-# hadolint ignore=DL3008
-RUN apt-get install  --no-install-recommends -y curl zip make python3 python3-pip \
+# hadolint ignore=DL3018
+RUN apk add --no-cache curl zip make python3 py3-pip hugo \
     && python3 -m pip install --no-cache-dir requests==2.10.0
-
 
 # Install hadolint
 RUN curl -sSfL -o /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v2.6.0/hadolint-Linux-x86_64 \
@@ -25,15 +17,8 @@ RUN curl -sSfL -o /usr/local/bin/hadolint https://github.com/hadolint/hadolint/r
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b /usr/bin
 
 # Install node to use npm
-# hadolint ignore=DL3008,DL4006
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y --no-install-recommends nodejs
+# hadolint ignore=DL3018
+RUN apk add --no-cache nodejs npm
 
-# Install markdown linter
+# hadolint ignore=DL3059,DL4001
 RUN npm install -g markdown-link-check@v3.8 markdownlint-cli@v0.34.0
-
-# Install Hugo in /usr/local/bin
-RUN curl -sSfL -o hugo_extended_0.109.0_Linux-64bit.tar.gz https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz \
-    && tar -xvf hugo_extended_0.109.0_Linux-64bit.tar.gz hugo \
-    && mv hugo /usr/local/bin \
-    && rm -f hugo_extended_0.109.0_Linux-64bit.tar.gz

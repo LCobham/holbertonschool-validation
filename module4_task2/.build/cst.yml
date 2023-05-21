@@ -1,6 +1,14 @@
 ---
 schemaVersion: 2.0.0
 
+fileExistenceTests:
+  - name: "Hugo installed"
+    path: /usr/bin/hugo
+    shouldExist: true
+  - name: "Hadolint is installed"
+    path: /usr/local/bin/hadolint
+    shouldExist: true
+
 commandTests:
   - name: "go version test"
     command: "go"
