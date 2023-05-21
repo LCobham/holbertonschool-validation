@@ -3,13 +3,14 @@ POST_TITLE ?= ''
 
 
 build-docker: ## Build the docker image with all dependencies from the Dockerfile in .build
-	@docker build -t awesome:build .build/.
+	@docker build -t awesome:build -f .build/Dockerfile .
 
-lint: ## Run the golangci-lint and exit if errors are present in .go src files
-	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
-		hadolint .build/Dockerfile
+lint: lint-docker ## Run the golangci-lint and exit if errors are present in .go src files
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		golangci-lint run *.go || exit
+
+lint-docker: ## Lint the Dockerfile
+	@hadolint .build/Dockerfile
 
 check: ## Check format of .md files in content folder
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \

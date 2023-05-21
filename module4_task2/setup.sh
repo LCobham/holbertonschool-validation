@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Update and Install make and wget
-# sudo apt-get update && sudo apt-get install -y make wget zip python3 python3-pip
+apt-get update && apt-get install -y make wget zip python3 python3-pip
 
 ## Download Hugo version 0.84 from GitHub
 # wget https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz
@@ -25,3 +25,6 @@
 
 # W3C validator dependencies
 # sudo python3 -m pip install requests
+
+wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
+chmod +x /usr/local/bin/hadolint

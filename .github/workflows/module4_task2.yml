@@ -30,7 +30,7 @@ jobs:
         run: ./setup.sh
 
       - name: Build from dockerfile
-        run: make build-docker
+        run: make lint-docker && make build-docker
 
       - name: lint go source files
         run: make lint
