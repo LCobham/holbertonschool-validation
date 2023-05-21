@@ -6,7 +6,8 @@ build-docker: ## Build the docker image with all dependencies from the Dockerfil
 	@docker build -t awesome:build .build/.
 
 lint: ## Run the golangci-lint and exit if errors are present in .go src files
-	@docker run --rm -i hadolint/hadolint < .build/Dockerfile
+	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
+		hadolint .build/Dockerfile
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		golangci-lint run *.go || exit
 
