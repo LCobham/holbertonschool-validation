@@ -14,7 +14,7 @@ check: ## Check format of .md files in content folder
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		markdownlint 'content/**/*.md' || exit
 
-docker-tests: ## Run tests on dockerfile
+docker-tests: lint ## Run tests on dockerfile
 	@container-structure-test test -i awesome:build -c .build/cst.yml
 
 validate: ## Validate index.html
