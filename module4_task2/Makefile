@@ -5,12 +5,10 @@ POST_TITLE ?= ''
 build-docker: ## Build the docker image with all dependencies from the Dockerfile in .build
 	@docker build -t awesome:build -f .build/Dockerfile .
 
-lint: lint-docker ## Run the golangci-lint and exit if errors are present in .go src files
-	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
+lint: ## Run the golangci-lint and exit if errors are present in .go src files
+	hadolint .build/Dockerfile
+##	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		golangci-lint run *.go || exit
-
-lint-docker: ## Lint the Dockerfile
-	@hadolint .build/Dockerfile
 
 check: ## Check format of .md files in content folder
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
@@ -33,7 +31,7 @@ build-api: ## Build the API from Go src files
 	@docker run --rm -v $(shell pwd):/app -w /app awesome:build \
 		go build -o awesome-api ./*.go
 
-build: build-hugo build-api ## Builds the static website and the awesome-api API
+build: build-docker build-hugo build-api ## Builds the static website and the awesome-api API
 	@echo "Build completed successfully"
 
 run: ## Runs the application and redirects/appends the console output to file `awesome-api.log`

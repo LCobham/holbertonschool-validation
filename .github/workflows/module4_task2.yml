@@ -29,26 +29,22 @@ jobs:
       - name: run the setup
         run: ./setup.sh
 
-      - name: Build from dockerfile
-        run: make lint-docker && make build-docker
-
-      - name: lint go source files
+      - name: Lint
         run: make lint
 
-      - name: Build webpage and API
+      - name: Build docker image, webpage and API
         run: make build
 
       - name: Validate and lint markdown files
         run: make check && make validate
 
+      - name: Test docker
+        run: make docker-tests
+
       - name: Run Unit & Integrations Tests
         run: |
           make unit-tests
           make integration-tests
-          curl -LO https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64 \
-            && chmod +x container-structure-test-linux-amd64 \
-            && sudo mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
-          make docker-tests
 
       - name: Build ZIP file
         run: make package

@@ -10,3 +10,7 @@ commandTests:
     command: "hugo"
     args: ["version"]
     exitCode: 0
+  - name: "hadolint correctly installed"
+    command: "hadolint"
+    args: ["--version"]
+    exitCode: 0

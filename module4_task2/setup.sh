@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Update and Install make and wget
-apt-get update && apt-get install -y make wget zip python3 python3-pip
+apt-get update && apt-get install -y make wget
 
 ## Download Hugo version 0.84 from GitHub
 # wget https://github.com/gohugoio/hugo/releases/download/v0.109.0/hugo_extended_0.109.0_Linux-64bit.tar.gz
@@ -18,7 +18,6 @@ apt-get update && apt-get install -y make wget zip python3 python3-pip
 
 # Install nvm & node to then install linter
 #
-## Note: commented this section because checks not working & can't run npm & nvm
 #
 # sudo npm install -g markdown-link-check
 # sudo npm install -g markdownlint-cli
@@ -28,3 +27,7 @@ apt-get update && apt-get install -y make wget zip python3 python3-pip
 
 wget -O /usr/local/bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64
 chmod +x /usr/local/bin/hadolint
+
+wget https://storage.googleapis.com/container-structure-test/latest/container-structure-test-linux-amd64
+chmod +x container-structure-test-linux-amd64
+mv container-structure-test-linux-amd64 /usr/local/bin/container-structure-test
